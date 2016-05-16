@@ -107,7 +107,9 @@ mactable_show (const char *mac_from, const char *mac)
 
     OVSREC_MAC_FOR_EACH (row, idl)
     {
-        if ((mac != NULL) && (strcmp(row->mac_addr, mac)) != 0)
+        if (NULL == row->port)
+            continue;
+        else if ((mac != NULL) && (strcmp(row->mac_addr, mac)) != 0)
         {
            /* skip this mac entry as this is not matching with the requested mac address */
             continue;
@@ -172,6 +174,8 @@ mactable_tunnel_show (const char *tunnel)
             /* skip the entries with different tunnel key */
             continue;
         }
+        if (NULL == row->port)
+            continue;
         shash_add(&sorted_mac_addr, row->mac_addr, (void *)row);
     }
 
@@ -234,7 +238,8 @@ mactable_vlan_show(const char *vlan_list, const char *mac_from)
         while (list != NULL)
         {
             int vlan_id = atoi(list->value);
-            if (row->vlan == vlan_id)
+            if (row->port &&
+                row->vlan == vlan_id)
             {
                 shash_add(&sorted_mac_addr, row->mac_addr, (void *)row);
                 break;
@@ -306,7 +311,8 @@ mactable_port_show(const char *port_list, const char *mac_from)
         while (list != NULL)
         {
 
-            if ((strcmp(list->value, row->port->name)) == 0)
+            if (row->port &&
+                (strcmp(list->value, row->port->name)) == 0)
             {
                 shash_add(&sorted_mac_addr, row->mac_addr, (void *)row);
                 break;
