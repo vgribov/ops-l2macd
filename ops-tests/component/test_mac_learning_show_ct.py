@@ -19,6 +19,7 @@
 """
 OpenSwitch Test for L2 mac related configurations.
 """
+from pytest import mark
 
 TOPOLOGY = """
 #
@@ -31,6 +32,7 @@ TOPOLOGY = """
 [type=openswitch name="OpenSwitch 1"] sw1
 """
 
+@mark.gate
 def test_show_mac(topology):
     sw1 = topology.get('sw1')
     assert sw1 is not None
