@@ -519,7 +519,6 @@ mac_ovsdb_init(void)
     ovsdb_idl_add_column(idl, &ovsrec_mac_col_mac_addr);
     ovsdb_idl_add_column(idl, &ovsrec_mac_col_from);
     ovsdb_idl_add_column(idl, &ovsrec_mac_col_port);
-    ovsdb_idl_add_column(idl, &ovsrec_mac_col_tunnel_key);
 
     /* Initialize Compound Indexes */
     index = ovsdb_idl_create_index(idl, &ovsrec_table_mac, "by_macVidFrom");
