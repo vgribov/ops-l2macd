@@ -23,6 +23,7 @@
  *
  ****************************************************************************/
 
+#include <inttypes.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -488,10 +489,10 @@ mac_flush_by_vlan(const struct ovsrec_vlan *vlan_row)
     /* Set MAC flush request on this VLAN. */
     ovsrec_vlan_set_macs_invalid(vlan_row, &mac_invalid, 1);
     ovsrec_vlan_verify_macs_invalid(vlan_row);
-    ovsdb_idl_txn_add_comment(txn, "l2macd-%ld-flush", vlan_row->id);
+    ovsdb_idl_txn_add_comment(txn, "l2macd-%" PRIi64 "-flush", vlan_row->id);
 
     status = ovsdb_idl_txn_commit_block(txn);
-    VLOG_DBG("%s: vlan %ld status %d \n", __FUNCTION__,
+    VLOG_DBG("%s: vlan %" PRIi64 " status %d \n", __FUNCTION__,
              vlan_row->id, status);
 
     if (status != TXN_SUCCESS)    {

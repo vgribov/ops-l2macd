@@ -24,6 +24,7 @@
  *
  ***************************************************************************/
 
+#include <inttypes.h>
 #include <sys/un.h>
 #include <setjmp.h>
 #include <sys/wait.h>
@@ -70,7 +71,7 @@ print_mactable(const struct shash_node **nodes, int count)
     for (idx = 0; idx < count; idx++)
     {
         row = (const struct ovsrec_mac *)nodes[idx]->data;
-        snprintf(vlan_id, 5, "%ld", (int64_t)ops_mac_get_vlan(row));
+        snprintf(vlan_id, 5, "%" PRIi64, (int64_t)ops_mac_get_vlan(row));
         DISPLAY_MACTABLE_ROW(vty, row, vlan_id);
     }
 
